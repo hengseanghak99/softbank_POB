@@ -1,47 +1,10 @@
 const { test, expect } = require("@playwright/test");
+import { credenttials } from "./credenttials";
+import { login_logout_action } from "./login_logout_action";
+const {user} = credenttials;
+const {login_success} = login_logout_action;
 
-const user = {
-    tenant_id: "takeshiba_001",
-    email: "admin@sb-disaster-admin-pob.tagcast.group",
-    password: "Abc12345678901",
-  };
-  
-  const reset_password = {
-    currentPassword: "Abc12345678901",
-    newPassword: "Abc123456789012",
-  };
-  
-  const incorrectUser = {
-    tenant_id: "takeshiba",
-    email: "admin@sb-disaster-admin-pob",
-    password: "Abc12345678",
-  };
 
-const login_success = async (page) => {
-  await page.goto("https://sb-disaster-admin-pob.tagcast.group/login");
-  await page.getByPlaceholder("テナントIDを入力してください").click();
-  await page
-    .getByPlaceholder("テナントIDを入力してください")
-    .fill(user.tenant_id);
-  await page
-    .getByPlaceholder("登録したメールアドレスを入力してください")
-    .click();
-  await page
-    .getByPlaceholder("登録したメールアドレスを入力してください")
-    .fill(user.email);
-  await page.getByPlaceholder("パスワードの入力").click();
-  await page.getByPlaceholder("パスワードの入力").fill(user.password);
-  await page.getByRole("button", { name: "ログイン" }).click();
-};
-const logout_success = async (page) => {
-  await login_success(page);
-  await page
-    .locator("div")
-    .filter({ hasText: /^防災 太郎$/ })
-    .click();
-  await page.getByText("ログアウト").click();
-  await expect(page.getByText("ログイン").first()).toBeVisible();
-};
 
 test("validate to have url [ Privacy and policy ]", async ({ page }) => {
     await login_success(page);
@@ -64,6 +27,7 @@ test("validate to have url [ Privacy and policy ]", async ({ page }) => {
     const newTab = await newTabPromise;
     await expect(newTab).toHaveURL("https://sb-disaster-admin-pob.tagcast.group/legal/term");
     await newTab.close();
+    await page.waitForTimeout(5000);
     
   });
   
