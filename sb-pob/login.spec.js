@@ -1,9 +1,8 @@
 const { test, expect } = require("@playwright/test");
-import  { credenttials } from './credenttials';
-import { login_logout_action } from './login_logout_action';
-const {user , reset_password, incorrectUser} = credenttials;
-const {login_success,logout_success} = login_logout_action;
-
+import { credenttials } from "./credenttials";
+import { login_logout_action } from "./login_logout_action";
+const { user, reset_password, incorrectUser } = credenttials;
+const { login_success, logout_success } = login_logout_action;
 
 test("validate login [ Check Text UI ]", async ({ page }) => {
   await page.goto("https://sb-disaster-admin-pob.tagcast.group/login");
@@ -62,12 +61,10 @@ test("validate login [ Error message ]", async ({ page }) => {
   await page.getByPlaceholder("パスワードの入力").fill(incorrectUser.password);
   await page.getByRole("button", { name: "ログイン" }).click();
   await expect(
-    page
-      .locator("div")
-      .filter({
-        hasText:
-          /^入力項目に誤りがあります。ご確認いただき、正しく入力してください。$/,
-      })
+    page.locator("div").filter({
+      hasText:
+        /^入力項目に誤りがあります。ご確認いただき、正しく入力してください。$/,
+    })
   ).toBeVisible();
 });
 
@@ -81,7 +78,7 @@ test("login successful [ Action ]", async ({ page }) => {
   ).toBeVisible();
 });
 
-test("logout successufl [ Action ]", async ({ page }) => {
+test("logout successful [ Action ]", async ({ page }) => {
   await logout_success(page);
 });
 
@@ -112,7 +109,93 @@ test("validate change password pop-up [Check Text UI]", async ({ page }) => {
 
 test("validate change password pop-up [ Error message ]", async ({ page }) => {
   await login_success(page);
+  // If user focus out off fileds
+  await page.getByText("防災 太郎").click();
+  await page.getByRole("banner").getByText("パスワード変更").click();
+  await page.getByPlaceholder("現在のパスワードの入力").click();
+  await page.getByPlaceholder("新しいパスワードの入力").click();
+  await page.getByPlaceholder("新しいパスワードの再入力").click();
+  await page
+    .locator("#app div")
+    .filter({
+      hasText:
+        "現在のパスワード現在のパスワードを入力してください。新しいパスワード以下のパスワード条件を満たす必要があります。パスワード条件14文字以上、99",
+    })
+    .nth(3)
+    .click();
+  //current password
+  await expect(
+    page.getByText("現在のパスワードを入力してください。")
+  ).toBeVisible();
+  //new and confirm password
+  await expect(
+    page.getByText("以下のパスワード条件を満たす必要があります。")
+  ).toBeVisible();
+  await expect(
+    page.getByText("パスワードを入力してください。", { exact: true })
+  ).toBeVisible();
+  await page.getByRole("button", { name: "キャンセル" }).click();
+
+  // If user less than 14 and over 99 character
+  const saveButton = await page.getByRole("button", { name: " 変更 " }).first();
+  await page.getByText("防災 太郎").click();
+  await page.getByRole("banner").getByText("パスワード変更").click();
+  await page.getByPlaceholder("現在のパスワードの入力").click();
+  await page.getByPlaceholder("現在のパスワードの入力").fill(user.password);
+  await page.getByPlaceholder("新しいパスワードの入力").click();
+  await page.getByPlaceholder("新しいパスワードの入力").fill("1231123Hak");
+  await page.getByPlaceholder("新しいパスワードの再入力").click();
+  await page.getByPlaceholder("新しいパスワードの再入力").fill("1231123Hak");
+  const isSaveButtonDisabledLessOver = await saveButton.isDisabled();
+  if (isSaveButtonDisabledLessOver) {
+    await page.getByRole("button", { name: "キャンセル" }).click();
+  } else {
+    console.log("Save button is enabled. Skipping cancellation.");
+  }
+
+  // If user input symbol
+  await page.getByText("防災 太郎").click();
+  await page.getByRole("banner").getByText("パスワード変更").click();
+  await page.getByPlaceholder("現在のパスワードの入力").click();
+  await page.getByPlaceholder("現在のパスワードの入力").fill(user.password);
+  await page.getByPlaceholder("新しいパスワードの入力").click();
+  await page.getByPlaceholder("新しいパスワードの入力").fill("123112@Hak");
+  await page.getByPlaceholder("新しいパスワードの再入力").click();
+  await page.getByPlaceholder("新しいパスワードの再入力").fill("123112@Hak");
+  const isSaveButtonDisabled_input_symbol = await saveButton.isDisabled();
+  if (isSaveButtonDisabled_input_symbol) {
+    await page.getByRole("button", { name: "キャンセル" }).click();
+  } else {
+    console.log("Save button is enabled. Skipping cancellation.");
+  }
+
+  // If user input space
+  await page.getByText("防災 太郎").click();
+  await page.getByRole("banner").getByText("パスワード変更").click();
+  await page.getByPlaceholder("現在のパスワードの入力").click();
+  await page.getByPlaceholder("現在のパスワードの入力").fill(user.password);
+  await page.getByPlaceholder("新しいパスワードの入力").click();
+  await page.getByPlaceholder("新しいパスワードの入力").fill("123112 Hak");
+  await page.getByPlaceholder("新しいパスワードの再入力").click();
+  await page.getByPlaceholder("新しいパスワードの再入力").fill("123112 Hak");
+  const isSaveButtonDisabled_input_space = await saveButton.isDisabled();
+  if (isSaveButtonDisabled_input_space) {
+    await page.getByRole("button", { name: "キャンセル" }).click();
+  } else {
+    console.log("Save button is enabled. Skipping cancellation.");
+  }
+  // If user input no match between new password and confirm password
+await page.getByText("防災 太郎").click();
+await page.getByRole("banner").getByText("パスワード変更").click();
+await page.getByPlaceholder("現在のパスワードの入力").click();
+await page.getByPlaceholder("現在のパスワードの入力").fill(user.password);
+await page.getByPlaceholder("新しいパスワードの入力").click();
+await page.getByPlaceholder("新しいパスワードの入力").fill("12311asHak");
+await page.getByPlaceholder("新しいパスワードの再入力").click();
+await page.getByPlaceholder("新しいパスワードの再入力").fill("12311asdfHak");
+await expect(page.getByText('パスワードが一致する必要があります。')).toBeVisible();
 });
+
 
 test("validate change password pop-up [ success ]", async ({ page }) => {
   await login_success(page);
