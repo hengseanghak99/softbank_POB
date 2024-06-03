@@ -31,15 +31,10 @@ test("validate login [ Error message ]", async ({ page }) => {
     .click();
   await page.getByPlaceholder("パスワードの入力").click();
   await page.getByRole("main").click();
-  await expect(
-    page.getByText("エラーメッセージが入ります").first()
-  ).toBeVisible();
-  await expect(
-    page.getByText("エラーメッセージが入ります").nth(1)
-  ).toBeVisible();
-  await expect(
-    page.getByText("エラーメッセージが入ります").nth(2)
-  ).toBeVisible();
+  
+  await expect(page.getByText('テナントIDを入力してください。')).toBeVisible();
+  await expect(page.getByText('メールアドレスを入力してください')).toBeVisible();
+  await expect(page.getByText('パスワードを入力してください')).toBeVisible();
 
   //user input wrong email format
   //     ・Tenant ID, mail or password is incorrect.​
@@ -196,7 +191,6 @@ await page.getByPlaceholder("新しいパスワードの再入力").fill("12311a
 await expect(page.getByText('パスワードが一致する必要があります。')).toBeVisible();
 });
 
-
 test("validate change password pop-up [ success ]", async ({ page }) => {
   await login_success(page);
   await page.getByText("防災 太郎").click();
@@ -216,12 +210,12 @@ test("validate change password pop-up [ success ]", async ({ page }) => {
   ).toBeVisible();
 
   //logout
-  await page
-    .locator("div")
-    .filter({ hasText: /^防災 太郎$/ })
-    .click();
-  await page.getByText("ログアウト").click();
-  await expect(page.getByText("ログイン").first()).toBeVisible();
+  await page.waitForTimeout(5000);
+  await page.getByText('防災 太郎').click();
+  await page.getByText('ログアウト', { exact: true }).click();
+  await page.getByRole('button', { name: 'はい' }).click();
+  await page.getByText('ログイン').first().click();
+  await expect(page).toHaveURL("https://sb-disaster-admin-pob.tagcast.group/login");
 
   //validate by login new password
   await page
@@ -246,6 +240,7 @@ test("validate change password pop-up [ success ]", async ({ page }) => {
   await page
     .getByPlaceholder("新しいパスワードの再入力")
     .fill(reset_password.currentPassword);
+    await page.waitForTimeout(5000);
   await page.getByRole("button", { name: "変更" }).click();
   await page.waitForTimeout(5000);
   await expect(

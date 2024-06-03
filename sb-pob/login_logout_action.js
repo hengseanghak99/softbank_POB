@@ -19,15 +19,16 @@ const login_success = async (page) => {
     await page.getByRole("button", { name: "ログイン" }).click();
   };
   const logout_success = async (page) => {
-    await login_success(page);
-    await page
-      .locator("div")
-      .filter({ hasText: /^防災 太郎$/ })
-      .click();
-    await page.getByText("ログアウト").click();
+    await login_success(page);  
+    await page.waitForTimeout(5000);
+    await page.getByText('防災 太郎').click();
+    await page.getByText('ログアウト', { exact: true }).click();
+    await page.waitForTimeout(5000);
+    await page.getByRole('button', { name: 'はい' }).click();
+    await page.waitForTimeout(5000);
+    await page.getByText('ログイン').first().click();
     await page.waitForTimeout(5000);
     await expect(page).toHaveURL("https://sb-disaster-admin-pob.tagcast.group/login");
-    await page.waitForTimeout(5000);
   };
 
   export const login_logout_action = { 
