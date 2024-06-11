@@ -3,9 +3,11 @@ import { credenttials } from "./credenttials";
 import { login_logout_action } from "./login_logout_action";
 const { user, reset_password, incorrectUser } = credenttials;
 const { login_success, logout_success } = login_logout_action;
+const login_url = "https://sb-disaster-admin-pob.tagcast.group/login";
+const toppage_url = "https://sb-disaster-admin-pob.tagcast.group/message-deliveries";
 
 test("validate login [ Check Text UI ]", async ({ page }) => {
-  await page.goto("https://sb-disaster-admin-pob.tagcast.group/login");
+  await page.goto(login_url);
   await expect(page.getByText("ログイン").first()).toBeVisible();
   await expect(page.getByText("テナントID")).toBeVisible();
   await expect(
@@ -24,7 +26,7 @@ test("validate login [ Check Text UI ]", async ({ page }) => {
 
 test("validate login [ Error message ]", async ({ page }) => {
   //user focus out of textbox
-  await page.goto("https://sb-disaster-admin-pob.tagcast.group/login");
+  await page.goto(login_url);
   await page.getByPlaceholder("テナントIDを入力してください").click();
   await page
     .getByPlaceholder("登録したメールアドレスを入力してください")
@@ -65,9 +67,8 @@ test("validate login [ Error message ]", async ({ page }) => {
 
 test("login successful [ Action ]", async ({ page }) => {
   await login_success(page);
-  await expect(page).toHaveURL(
-    "https://sb-disaster-admin-pob.tagcast.group/message-delivery"
-  );
+  await page.waitForTimeout(5000)
+  await expect(page).toHaveURL(toppage_url);
   await expect(
     page.getByRole("main").getByText("メッセージ配信", { exact: true })
   ).toBeVisible();
@@ -215,7 +216,7 @@ test("validate change password pop-up [ success ]", async ({ page }) => {
   await page.getByText('ログアウト', { exact: true }).click();
   await page.getByRole('button', { name: 'はい' }).click();
   await page.getByText('ログイン').first().click();
-  await expect(page).toHaveURL("https://sb-disaster-admin-pob.tagcast.group/login");
+  await expect(page).toHaveURL(login_url);
 
   //validate by login new password
   await page
