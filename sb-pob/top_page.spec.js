@@ -65,7 +65,7 @@ test("validate Top page [ Check Text UI ]", async ({ page }) => {
   await expect(page.getByRole('link', { name: 'メッセージ作成' })).toBeVisible(FONT_SIZE,'16px'); 
 });
 
-test.only("validate Top page [ Check page can be collapsed or expanded side bar ]", async ({ page }) => {
+test("validate Top page [ Check page can be collapsed or expanded side bar ]", async ({ page }) => {
   await login_success(page);
 
   try {
@@ -82,6 +82,5 @@ test.only("validate Top page [ Check page can be collapsed or expanded side bar 
     await expect(page.locator("aside")).toHaveClass("sb-sidebar sb-sidebar-sm");
   }
 });
-
 
 
