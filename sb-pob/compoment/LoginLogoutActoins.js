@@ -3,6 +3,7 @@ import { credenttials } from "./credenttials";
 const {user} = credenttials;
 const login_url = "https://sb-disaster-admin-pob.tagcast.group/login";
 
+// Flow to login sucessful
 const login_success = async (page) => {
     await page.goto(login_url);
     await page.getByPlaceholder("テナントIDを入力してください").click();
@@ -20,7 +21,7 @@ const login_success = async (page) => {
     await page.getByRole("button", { name: "ログイン" }).click();
     await page.waitForTimeout(5000);
   };
-
+  // Flow to logout sucessful
   const logout_success = async (page) => {
     await login_success(page);  
     await page.waitForTimeout(5000);
@@ -33,7 +34,6 @@ const login_success = async (page) => {
     await page.waitForTimeout(5000);
     await expect(page).toHaveURL(login_url);
   };
-
   export const login_logout_action = { 
     login_success,
     logout_success

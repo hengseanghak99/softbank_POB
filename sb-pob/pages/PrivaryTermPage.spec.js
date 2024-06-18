@@ -1,5 +1,5 @@
 const { test, expect } = require("@playwright/test");
-import { login_logout_action } from "./login_logout_action";
+import { login_logout_action } from "../compoment/LoginLogoutActoins";
 const { login_success } = login_logout_action;
 
 test("validate to have url [ Privacy and policy ]", async ({ page }) => {

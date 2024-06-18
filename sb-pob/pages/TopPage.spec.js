@@ -1,4 +1,4 @@
-import { login_logout_action } from "./login_logout_action";
+import { login_logout_action } from "../compoment/LoginLogoutActoins";
 const { test, expect } = require("@playwright/test");
 const { login_success } = login_logout_action;
 
@@ -82,5 +82,3 @@ test("validate Top page [ Check page can be collapsed or expanded side bar ]", a
     await expect(page.locator("aside")).toHaveClass("sb-sidebar sb-sidebar-sm");
   }
 });
-
-

@@ -1,7 +1,5 @@
-import { login_logout_action } from "./login_logout_action";
-import { func } from "./func";
-import { validateTextUI } from "./func";
-import { execPath } from "process";
+import { login_logout_action } from "../compoment/LoginLogoutActoins";
+import { func } from "../utils/style_validate";
 const { test, expect } = require("@playwright/test");
 const { login_success } = login_logout_action;
 const toppage_url =
@@ -15,8 +13,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("Create Message [ Check Text UI]", async ({ page }) => {
-  const { validateTextUI, f12, f14, f16, f22, f34, bold1, bold2, normal } =
-    func;
+  const { validateTextUI, f14, f16,f22,f12, f34, bold1,bold2, normal } = func;
   await validateTextUI(
     page.getByLabel("breadcrumb").getByText("メッセージ作成"),
     f14,
@@ -142,7 +139,7 @@ test("Create Message [ Check Error Message ]",async ({page}) => {
     }
 })
 
-test("Create Message [ If user leave page, show alert pop-up ]", async ({
+test.only("Create Message [ If user leave page, show alert pop-up ]", async ({
   page,
 }) => {
   //check Pop-up message UI - breadcrum
@@ -185,13 +182,15 @@ test("Create Message [ If user leave page, show alert pop-up ]", async ({
       })
       .nth(3)
   ).toBeVisible();
-  await page.getByRole("button", { name: "はい" }).click();
+  await page.waitForTimeout(2000);
+  await page.getByRole('button', { name: 'はい' }).click();
   await page.waitForTimeout(2000);
   await expect(page).toHaveURL(toppage_url);
   await page.waitForTimeout(2000);
 
+
   //check Pop-up message UI - back at bottom page -> expect to to top page
-  await page.getByRole("link", { name: "メッセージ作成" }).click();
+  await page.getByRole('link', { name: 'メッセージ作成' }).click();
   await page.getByRole("button", { name: "戻る" }).click();
   await expect(
     page

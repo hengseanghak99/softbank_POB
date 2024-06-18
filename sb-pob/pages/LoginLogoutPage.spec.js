@@ -1,10 +1,12 @@
 const { test, expect } = require("@playwright/test");
-import { credenttials } from "./credenttials";
-import { login_logout_action } from "./login_logout_action";
+import { credenttials } from "../compoment/credenttials";
+import { login_logout_action } from "../compoment/LoginLogoutActoins";
 const { user, reset_password, incorrectUser } = credenttials;
 const { login_success, logout_success } = login_logout_action;
+
 const login_url = "https://sb-disaster-admin-pob.tagcast.group/login";
-const toppage_url = "https://sb-disaster-admin-pob.tagcast.group/message-deliveries";
+const toppage_url =
+  "https://sb-disaster-admin-pob.tagcast.group/message-deliveries";
 
 test("validate login [ Check Text UI ]", async ({ page }) => {
   await page.goto(login_url);
@@ -33,13 +35,15 @@ test("validate login [ Error message ]", async ({ page }) => {
     .click();
   await page.getByPlaceholder("パスワードの入力").click();
   await page.getByRole("main").click();
-  
-  await expect(page.getByText('テナントIDを入力してください。')).toBeVisible();
-  await expect(page.getByText('メールアドレスを入力してください')).toBeVisible();
-  await expect(page.getByText('パスワードを入力してください')).toBeVisible();
+
+  await expect(page.getByText("テナントIDを入力してください。")).toBeVisible();
+  await expect(
+    page.getByText("メールアドレスを入力してください")
+  ).toBeVisible();
+  await expect(page.getByText("パスワードを入力してください")).toBeVisible();
 
   //user input wrong email format
-  //     ・Tenant ID, mail or password is incorrect.​
+  // ・Tenant ID, mail or password is incorrect.​
   // ・Tenant ID is not existed​
   // ・Email address is not existed​
   // ・Email is not belong to tenant​
@@ -59,15 +63,14 @@ test("validate login [ Error message ]", async ({ page }) => {
   await page.getByRole("button", { name: "ログイン" }).click();
   await expect(
     page.locator("div").filter({
-      hasText:
-        /^入力項目に誤りがあります。ご確認いただき、正しく入力してください。$/,
+      hasText: /^入力項目に誤りがあります。ご確認いただき、正しく入力してください。$/,
     })
   ).toBeVisible();
 });
 
 test("login successful [ Action ]", async ({ page }) => {
   await login_success(page);
-  await page.waitForTimeout(5000)
+  await page.waitForTimeout(5000);
   await expect(page).toHaveURL(toppage_url);
   await expect(
     page.getByRole("main").getByText("メッセージ配信", { exact: true })
@@ -181,70 +184,50 @@ test("validate change password pop-up [ Error message ]", async ({ page }) => {
     console.log("Save button is enabled. Skipping cancellation.");
   }
   // If user input no match between new password and confirm password
-await page.getByText("防災 太郎").click();
-await page.getByRole("banner").getByText("パスワード変更").click();
-await page.getByPlaceholder("現在のパスワードの入力").click();
-await page.getByPlaceholder("現在のパスワードの入力").fill(user.password);
-await page.getByPlaceholder("新しいパスワードの入力").click();
-await page.getByPlaceholder("新しいパスワードの入力").fill("12311asHak");
-await page.getByPlaceholder("新しいパスワードの再入力").click();
-await page.getByPlaceholder("新しいパスワードの再入力").fill("12311asdfHak");
-await expect(page.getByText('パスワードが一致する必要があります。')).toBeVisible();
+  await page.getByText("防災 太郎").click();
+  await page.getByRole("banner").getByText("パスワード変更").click();
+  await page.getByPlaceholder("現在のパスワードの入力").click();
+  await page.getByPlaceholder("現在のパスワードの入力").fill(user.password);
+  await page.getByPlaceholder("新しいパスワードの入力").click();
+  await page.getByPlaceholder("新しいパスワードの入力").fill("12311asHak");
+  await page.getByPlaceholder("新しいパスワードの再入力").click();
+  await page.getByPlaceholder("新しいパスワードの再入力").fill("12311asdfHak");
+  await expect(
+    page.getByText("パスワードが一致する必要があります。")
+  ).toBeVisible();
 });
 
 test("validate change password pop-up [ success ]", async ({ page }) => {
   await login_success(page);
   await page.getByText("防災 太郎").click();
   await page.getByRole("banner").getByText("パスワード変更").click();
-  await page
-    .getByPlaceholder("現在のパスワードの入力")
-    .fill(reset_password.currentPassword);
-  await page
-    .getByPlaceholder("新しいパスワードの入力")
-    .fill(reset_password.newPassword);
-  await page
-    .getByPlaceholder("新しいパスワードの再入力")
-    .fill(reset_password.newPassword);
+  await page.getByPlaceholder("現在のパスワードの入力").fill(reset_password.currentPassword);
+  await page.getByPlaceholder("新しいパスワードの入力").fill(reset_password.newPassword);
+  await page.getByPlaceholder("新しいパスワードの再入力").fill(reset_password.newPassword);
   await page.getByRole("button", { name: "変更" }).click();
-  await expect(
-    page.getByRole("main").getByText("メッセージ配信", { exact: true })
-  ).toBeVisible();
+  await expect(page.getByRole("main").getByText("メッセージ配信", { exact: true })).toBeVisible();
 
   //logout
   await page.waitForTimeout(5000);
-  await page.getByText('防災 太郎').click();
-  await page.getByText('ログアウト', { exact: true }).click();
-  await page.getByRole('button', { name: 'はい' }).click();
-  await page.getByText('ログイン').first().click();
+  await page.getByText("防災 太郎").click();
+  await page.getByText("ログアウト", { exact: true }).click();
+  await page.getByRole("button", { name: "はい" }).click();
+  await page.getByText("ログイン").first().click();
   await expect(page).toHaveURL(login_url);
 
   //validate by login new password
-  await page
-    .getByPlaceholder("テナントIDを入力してください")
-    .fill(user.tenant_id);
-  await page
-    .getByPlaceholder("登録したメールアドレスを入力してください")
-    .fill(user.email);
-  await page
-    .getByPlaceholder("パスワードの入力")
-    .fill(reset_password.newPassword);
+  await page.getByPlaceholder("テナントIDを入力してください").fill(user.tenant_id);
+  await page.getByPlaceholder("登録したメールアドレスを入力してください").fill(user.email);
+  await page.getByPlaceholder("パスワードの入力").fill(reset_password.newPassword);
   await page.getByRole("button", { name: "ログイン" }).click();
   //set back to current password
   await page.getByText("防災 太郎").click();
   await page.getByRole("banner").getByText("パスワード変更").click();
-  await page
-    .getByPlaceholder("現在のパスワードの入力")
-    .fill(reset_password.newPassword);
-  await page
-    .getByPlaceholder("新しいパスワードの入力")
-    .fill(reset_password.currentPassword);
-  await page
-    .getByPlaceholder("新しいパスワードの再入力")
-    .fill(reset_password.currentPassword);
-    await page.waitForTimeout(5000);
+  await page.getByPlaceholder("現在のパスワードの入力").fill(reset_password.newPassword);
+  await page.getByPlaceholder("新しいパスワードの入力").fill(reset_password.currentPassword);
+  await page.getByPlaceholder("新しいパスワードの再入力").fill(reset_password.currentPassword);
+  await page.waitForTimeout(5000);
   await page.getByRole("button", { name: "変更" }).click();
   await page.waitForTimeout(5000);
-  await expect(
-    page.getByRole("main").getByText("メッセージ配信", { exact: true })
-  ).toBeVisible();
+  await expect(page.getByRole("main").getByText("メッセージ配信", { exact: true })).toBeVisible();
 });
