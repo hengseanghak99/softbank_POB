@@ -1,24 +1,34 @@
-const { test, expect } = require("@playwright/test");
+const { expect } = require("@playwright/test");
 
 const FONT_SIZE = "font-size";
 const FONT_WEIGHT = "font-weight";
+const COLOR = "color";
 const f12 = "12px";
 const f14 = "14px";
 const f16 = "16px";
 const f22 = "22px";
-const f28 = '28px';
+const f28 = "28px";
 const f34 = "34px";
-const bold1 = "700";
-const bold2 = "600";
-const normal = "400";
+const bold700 = "700";
+const bold600 = "600";
+const bold400 = "400";
 
-const validateTextUI = async (locator, size, weight) => {
+const hexToRgb = (hex) => {
+  const bigint = parseInt(hex.slice(1), 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+  return `rgb(${r}, ${g}, ${b})`;
+};
+
+const validateTextUI = async (locator, size, weight, color) => {
   await expect(locator).toBeVisible();
   await expect(locator).toHaveCSS(FONT_SIZE, size);
   await expect(locator).toHaveCSS(FONT_WEIGHT, weight);
+  await expect(locator).toHaveCSS(COLOR, hexToRgb(color));
 };
 
-export const func = { 
+export const func = {
   validateTextUI,
   f12,
   f14,
@@ -26,7 +36,10 @@ export const func = {
   f22,
   f28,
   f34,
-  bold1,
-  bold2,
-  normal,
+  bold700,
+  bold600,
+  bold400,
+  hexToRgb,
 };
+
+export { validateTextUI, f12, f14, f16, f22, f28, f34, bold700,bold600,bold400,hexToRgb };

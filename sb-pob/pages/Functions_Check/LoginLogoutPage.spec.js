@@ -1,30 +1,9 @@
 const { test, expect } = require("@playwright/test");
-import { credenttials } from "../compoment/credenttials";
-import { login_logout_action } from "../compoment/LoginLogoutActoins";
-const { user, reset_password, incorrectUser } = credenttials;
+import { credenttials } from "../../compoment/credenttials";
+import { login_logout_action } from "../../compoment/LoginLogoutActoins";
 const { login_success, logout_success } = login_logout_action;
+const { user, reset_password, incorrectUser ,login_url,toppage_url } = credenttials;
 
-const login_url = "https://sb-disaster-admin-pob.tagcast.group/login";
-const toppage_url =
-  "https://sb-disaster-admin-pob.tagcast.group/message-deliveries";
-
-test("validate login [ Check Text UI ]", async ({ page }) => {
-  await page.goto(login_url);
-  await expect(page.getByText("ログイン").first()).toBeVisible();
-  await expect(page.getByText("テナントID")).toBeVisible();
-  await expect(
-    page.getByPlaceholder("テナントIDを入力してください")
-  ).toBeVisible();
-  await expect(page.getByText("メールアドレス")).toBeVisible();
-  await expect(
-    page.getByPlaceholder("登録したメールアドレスを入力してください")
-  ).toBeVisible();
-  await expect(page.getByText("パスワード")).toBeVisible();
-  await expect(page.getByPlaceholder("パスワードの入力")).toBeVisible();
-  await expect(
-    page.locator("div").filter({ hasText: "ログイン" }).nth(2)
-  ).toBeVisible();
-});
 
 test("validate login [ Error message ]", async ({ page }) => {
   //user focus out of textbox
@@ -79,31 +58,6 @@ test("login successful [ Action ]", async ({ page }) => {
 
 test("logout successful [ Action ]", async ({ page }) => {
   await logout_success(page);
-});
-
-test("validate change password pop-up [Check Text UI]", async ({ page }) => {
-  await login_success(page);
-  await page.getByText("防災 太郎").click();
-  await page.getByRole("banner").getByText("パスワード変更").click();
-  await expect(
-    page.getByRole("heading", { name: "パスワード変更" })
-  ).toBeVisible();
-  await expect(
-    page.getByText("現在のパスワード", { exact: true })
-  ).toBeVisible();
-  await expect(page.getByPlaceholder("現在のパスワードの入力")).toBeVisible();
-  await expect(
-    page.getByText("新しいパスワード", { exact: true })
-  ).toBeVisible();
-  await expect(page.getByPlaceholder("新しいパスワードの入力")).toBeVisible();
-  await expect(page.getByText("パスワード条件")).toBeVisible();
-  await expect(page.getByText("文字以上、99文字以下")).toBeVisible();
-  await expect(
-    page.getByText("英大文字、英小文字、半角数字を含む")
-  ).toBeVisible();
-  await expect(page.getByText("記号とスペースは使用しない")).toBeVisible();
-  await expect(page.getByText("新しいパスワードの再入力")).toBeVisible();
-  await expect(page.getByPlaceholder("新しいパスワードの再入力")).toBeVisible();
 });
 
 test("validate change password pop-up [ Error message ]", async ({ page }) => {
