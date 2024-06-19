@@ -1,7 +1,7 @@
-import { login_logout_action } from "../../component/login_logout_actions";
 import { validateTextUI, f14, f16, f22, f12, f34, bold700, bold600, bold400, f28 , hexToRgb} from "../../utils/style_validate";
-const { test, expect } = require("@playwright/test");
+import { login_logout_action } from "../../component/login_logout_actions";
 const { login_success } = login_logout_action;
+const { test, expect } = require("@playwright/test");
 
 const primary_color = '#000000';
 const secondary_color = '#666666';
@@ -10,6 +10,8 @@ const warning_color = '#E02D2D';
 const inactiveButton_color = '#FFFFFF';
 
 test("Create Message [ Check Text UI]", async ({ page }) => {
+  await login_success(page);
+  await page.getByRole("link", { name: "メッセージ作成" }).click();
   await validateTextUI(page.getByLabel("breadcrumb").getByText("メッセージ作成"),f14,bold400,primary_color);
   await validateTextUI(page.locator("div").filter({ hasText: /^メッセージ作成$/ }),f34,bold700,primary_color);
   await validateTextUI(page.getByText("配信設定"), f22, bold600,primary_color);

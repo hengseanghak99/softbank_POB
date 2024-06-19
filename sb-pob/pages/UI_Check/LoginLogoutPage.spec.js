@@ -1,4 +1,6 @@
-import { login_url } from "../../component/credentials";
+import { login_url } from "../../utils/credentials";
+import { login_logout_action } from "../../component/login_logout_actions";
+const { login_success } = login_logout_action;
 import { validateTextUI, f14, f16, f22, f12, f34, bold700, bold600, bold400, f28 , hexToRgb} from "../../utils/style_validate";
 const { test, expect } = require("@playwright/test");
 
@@ -80,6 +82,7 @@ test("validate login [ Check Text UI ]", async ({ page }) => {
 });
 
 test("validate change password pop-up [Check Text UI]", async ({ page }) => {
+  await login_success(page);
   await page.getByText("防災 太郎").click();
   await page.getByRole("banner").getByText("パスワード変更").click();
 
