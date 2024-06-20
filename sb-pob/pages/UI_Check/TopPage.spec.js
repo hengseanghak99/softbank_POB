@@ -4,7 +4,6 @@ const { test, expect } = require("@playwright/test");
 const { login_success } = login_logout_action;
 
 const primary_color = '#000000';
-const secondary_color = '#1F1F1F';
 const info_color = '#0066FF';
 const linkButton_color = '#FFFFFF';
 
@@ -12,9 +11,9 @@ test("validate Top page [ Check Text UI ]", async ({ page }) => {
   await login_success(page);
 // Validate Text UI
   await validateTextUI(page.getByRole('main').getByText('メッセージ配信', { exact: true }),f34,bold700,primary_color);
-  await validateTextUI(page.getByText('メッセージ配信数を確認'),f22,bold600,secondary_color);
-  await validateTextUI(page.getByText('メッセージはご利用中のプランによって配信できる上限数が設定されています。'),f16,bold400,secondary_color);
-  await validateTextUI(page.getByText(' 現在のメッセージ配信数をLINE管理画面で確認し、上限数を超えた場合はプランの変更を行ってください。 '),f16,bold400,secondary_color)
+  await validateTextUI(page.getByText('メッセージ配信数を確認'),f22,bold600,primary_color);
+  await validateTextUI(page.getByText('メッセージはご利用中のプランによって配信できる上限数が設定されています。'),f16,bold400,primary_color);
+  await validateTextUI(page.getByText(' 現在のメッセージ配信数をLINE管理画面で確認し、上限数を超えた場合はプランの変更を行ってください。 '),f16,bold400,primary_color)
   await validateTextUI(page.getByText('LINE Official Account Manager'),f16,bold400,info_color)
   await validateTextUI(page.getByText('LINEメッセージ配信'),f22,bold600,primary_color)
   await validateTextUI(page.getByText('LINE公式アカウントを友だち追加したユーザーへメッセージ配信ができます。'),f16,bold400,primary_color)

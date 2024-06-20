@@ -22,10 +22,10 @@ const hexToRgb = (hex) => {
 };
 
 const validateTextUI = async (locator, size = 0, weight = 0, color = null) => {
-  await expect(locator).toBeVisible();
-  await expect(locator).toHaveCSS(FONT_SIZE, size);
-  await expect(locator).toHaveCSS(FONT_WEIGHT, weight);
-  await expect(locator).toHaveCSS(COLOR, hexToRgb(color));
+  await expect.soft(locator).toBeVisible();
+  await expect.soft(locator).toHaveCSS(FONT_SIZE, size);
+  await expect.soft(locator).toHaveCSS(FONT_WEIGHT, weight);
+  await expect.soft(locator).toHaveCSS(COLOR, hexToRgb(color));
 };
 
 export const func = {
