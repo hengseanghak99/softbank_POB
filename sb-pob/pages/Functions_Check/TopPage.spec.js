@@ -1,6 +1,14 @@
-import { login_logout_action } from "../../compoment/LoginLogoutActoins";
+import { login_logout_action } from "../../component/login_logout_actions";
 const { test, expect } = require("@playwright/test");
 const { login_success } = login_logout_action;
+require('dotenv').config();
+
+console.log('Environment Variables:', {
+  EMAIL: process.env.EMAIL,
+  PASSWORD: process.env.PASSWORD,
+  TENANTID: process.env.TENANTID,
+});
+
 
 test("validate Top page [ Check page can be collapsed or expanded side bar ]", async ({ page }) => {
   await login_success(page);

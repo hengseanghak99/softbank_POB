@@ -1,6 +1,6 @@
 // login_logout_actions.js
 const { expect } = require("@playwright/test");
-import { credentials } from "./credentials";
+import { credentials } from "../utils/credentials";
 const { user, login_url } = credentials;
 
 // Flow to login successful

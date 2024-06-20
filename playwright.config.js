@@ -6,11 +6,11 @@ const { defineConfig, devices } = require('@playwright/test');
  * https://github.com/motdotla/dotenv
  */
 // require('dotenv').config();
-
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
 module.exports = defineConfig({
+  globalSetup: 'globalSetup.js',
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,

@@ -21,7 +21,7 @@ const hexToRgb = (hex) => {
   return `rgb(${r}, ${g}, ${b})`;
 };
 
-const validateTextUI = async (locator, size, weight, color) => {
+const validateTextUI = async (locator, size = 0, weight = 0, color = null) => {
   await expect(locator).toBeVisible();
   await expect(locator).toHaveCSS(FONT_SIZE, size);
   await expect(locator).toHaveCSS(FONT_WEIGHT, weight);

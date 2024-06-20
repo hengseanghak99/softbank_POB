@@ -5,7 +5,7 @@ import { validateTextUI, f14, f16, f22, f12, f34, bold700, bold600, bold400, f28
 const { test, expect } = require("@playwright/test");
 
 const primary_color = '#000000';
-const secondary_color = '#212529';
+const secondary_color = '##666666';
 const warning_color = '#E02D2D'
 
 test.beforeEach(async ({ page }) => {
@@ -102,3 +102,4 @@ test("validate change password pop-up [Check Text UI]", async ({ page }) => {
   // await validateTextUI(page.getByPlaceholder("新しいパスワードの再入力"),f16,bold400,primary_color)
 
 });
+

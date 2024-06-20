@@ -1,5 +1,5 @@
 const { test, expect } = require("@playwright/test");
-import { credenttials } from "../../compoment/credenttials";
+import { credenttials } from "../../utils/credentials";
 import { login_logout_action } from "../../compoment/LoginLogoutActoins";
 const { login_success, logout_success } = login_logout_action;
 const { user, reset_password, incorrectUser ,login_url,toppage_url } = credenttials;
