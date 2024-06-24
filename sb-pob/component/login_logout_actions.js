@@ -1,10 +1,10 @@
-// login_logout_actions.js
 const { expect } = require("@playwright/test");
-import { credentials } from "../utils/credentials";
+const { credentials } = require("../utils/credentials");
 const { user, login_url } = credentials;
 
 // Flow to login successful
 const login_success = async (page) => {
+  console.log(login_url)
   await page.goto(login_url);
   await page.getByPlaceholder("テナントIDを入力してください").click();
   await page.getByPlaceholder("テナントIDを入力してください").fill(user.tenant_id);
@@ -30,7 +30,4 @@ const logout_success = async (page) => {
   await expect(page).toHaveURL(login_url);
 };
 
-export const login_logout_action = { 
-  login_success,
-  logout_success
-};
+module.exports = { login_success, logout_success };

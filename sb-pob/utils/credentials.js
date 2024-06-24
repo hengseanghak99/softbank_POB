@@ -1,4 +1,7 @@
-require('dotenv').config();
+
+require('dotenv').config({
+  path: `/Users/seanghak/Desktop/Project/SB_POB/softbank_POB/sb-pob/.env`
+});
 
 const user = {
   tenant_id: process.env.USER_TENANT_ID,
@@ -20,10 +23,19 @@ const incorrectUser = {
 const login_url = process.env.LOGIN_URL;
 const toppage_url = process.env.TOPPAGE_URL;
 
-module.exports = { 
+const credentials = { 
   user,
   reset_password,
   incorrectUser,
   login_url,
   toppage_url,
+};
+
+module.exports = { 
+  credentials,
+  user,
+  reset_password,
+  incorrectUser,
+  toppage_url,
+  login_url
 };

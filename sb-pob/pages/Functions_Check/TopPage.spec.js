@@ -1,6 +1,5 @@
-import { login_logout_action } from "../../component/login_logout_actions";
+const { login_success, logout_success } = require("../../component/login_logout_actions");
 const { test, expect } = require("@playwright/test");
-const { login_success } = login_logout_action;
 
 test("validate Top page [ Check page can be collapsed or expanded side bar ]", async ({ page }) => {
   await login_success(page);
