@@ -4,3 +4,4 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /sb-pob/pages/Functions_Check/.env
+/sb-pob/utils/.env

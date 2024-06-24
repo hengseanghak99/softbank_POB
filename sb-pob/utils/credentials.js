@@ -1,30 +1,29 @@
-// credentials.js
+require('dotenv').config();
+
 const user = {
-  tenant_id: "takeshiba_001",
-  email: "admin@sb-disaster-admin-pob.tagcast.group",
-  password: "Abc12345678901",
+  tenant_id: process.env.USER_TENANT_ID,
+  email: process.env.USER_EMAIL,
+  password: process.env.USER_PASSWORD,
 };
 
 const reset_password = {
-  currentPassword: "Abc12345678901",
-  newPassword: "Abc123456789012",
+  currentPassword: process.env.RESET_PASSWORD_CURRENT,
+  newPassword: process.env.RESET_PASSWORD_NEW,
 };
 
 const incorrectUser = {
-  tenant_id: "takeshiba",
-  email: "admin@sb-disaster-admin-pob",
-  password: "Abc12345678",
+  tenant_id: process.env.INCORRECT_USER_TENANT_ID,
+  email: process.env.INCORRECT_USER_EMAIL,
+  password: process.env.INCORRECT_USER_PASSWORD,
 };
 
-const login_url = "https://sb-disaster-admin-pob.tagcast.group/login";
-const toppage_url = "https://sb-disaster-admin-pob.tagcast.group/message-deliveries";
+const login_url = process.env.LOGIN_URL;
+const toppage_url = process.env.TOPPAGE_URL;
 
-export const credentials = { 
+module.exports = { 
   user,
   reset_password,
   incorrectUser,
   login_url,
   toppage_url,
 };
-
-export {user,reset_password,incorrectUser,toppage_url,login_url};
