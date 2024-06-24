@@ -1,9 +1,11 @@
 const { test, expect } = require("@playwright/test");
-import { login_logout_action } from "../../compoment/LoginLogoutActoins";
-const { login_success } = login_logout_action;
+const { login_success } = require("../../component/login_logout_actions");
+
+test.beforeEach(async ({ page }) => {
+  await login_success(page);
+});
 
 test("validate to have url [ Privacy and policy ]", async ({ page }) => {
-  await login_success(page);
   const newTabPromise = page.waitForEvent("popup");
   await page.getByText("防災 太郎").click();
   await page.getByRole("link", { name: "プライバシーポリシー" }).click();
@@ -15,8 +17,6 @@ test("validate to have url [ Privacy and policy ]", async ({ page }) => {
 });
 
 test("validate to have url [ Term ]", async ({ page }) => {
-  await login_success(page);
-
   // Get a reference to the promise that resolves when a new popup/tab is opened
   const newTabPromise = page.waitForEvent("popup");
   await page.getByText("防災 太郎").click();
@@ -38,4 +38,3 @@ test('validate to have url [ Maintennace ]', async ({ page }) => {
   await expect(page.getByText('メンテナンス終了までお待ちください。')).toBeVisible();
   await expect(page.getByText('SERVICE LOGO')).toBeVisible();
 });
-

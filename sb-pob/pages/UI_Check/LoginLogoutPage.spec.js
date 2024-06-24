@@ -1,7 +1,6 @@
-import { login_url } from "../../utils/credentials";
-import { login_logout_action } from "../../component/login_logout_actions";
-const { login_success } = login_logout_action;
-import { validateTextUI, f14, f16, f22, f12, f34, bold700, bold600, bold400, f28 , hexToRgb} from "../../utils/style_validate";
+const { login_url } = require("../../utils/credentials");
+const { login_success } = require("../../component/login_logout_actions");
+const { validateTextUI, f14, f16, f22, f12, f34, bold700, bold600, bold400, f28 , hexToRgb} = require("../../utils/style_validate");
 const { test, expect } = require("@playwright/test");
 
 const primary_color = '#000000';

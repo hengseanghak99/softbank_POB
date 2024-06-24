@@ -3,6 +3,7 @@ const { expect } = require("@playwright/test");
 const FONT_SIZE = "font-size";
 const FONT_WEIGHT = "font-weight";
 const COLOR = "color";
+
 const f12 = "12px";
 const f14 = "14px";
 const f16 = "16px";
@@ -21,14 +22,14 @@ const hexToRgb = (hex) => {
   return `rgb(${r}, ${g}, ${b})`;
 };
 
-const validateTextUI = async (locator, size = 0, weight = 0, color = null) => {
+const validateTextUI = async (locator, size = "", weight = "", color = "") => {
   await expect.soft(locator).toBeVisible();
   await expect.soft(locator).toHaveCSS(FONT_SIZE, size);
   await expect.soft(locator).toHaveCSS(FONT_WEIGHT, weight);
   await expect.soft(locator).toHaveCSS(COLOR, hexToRgb(color));
 };
 
-export const func = {
+module.exports = {
   validateTextUI,
   f12,
   f14,
@@ -39,7 +40,5 @@ export const func = {
   bold700,
   bold600,
   bold400,
-  hexToRgb,
+  hexToRgb
 };
-
-export { validateTextUI, f12, f14, f16, f22, f28, f34, bold700,bold600,bold400,hexToRgb };
