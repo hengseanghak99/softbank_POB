@@ -3,6 +3,6 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-/softbank_POB/sb-pob/.env
+/sb-pob/.env
 /tests/
 /tests-example/
