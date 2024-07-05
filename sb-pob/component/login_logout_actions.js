@@ -4,6 +4,7 @@ const { user, login_url, } = credentials;
 
 // Flow to login successful
 const login_success = async (page) => {
+  
   await page.goto(login_url);
   await page.getByPlaceholder("テナントIDを入力してください").click();
   await page.getByPlaceholder("テナントIDを入力してください").fill(user.tenant_id);
@@ -12,7 +13,6 @@ const login_success = async (page) => {
   await page.getByPlaceholder("パスワードの入力").click();
   await page.getByPlaceholder("パスワードの入力").fill(user.password);
   await page.getByRole("button", { name: "ログイン" }).click();
-  await page.waitForTimeout(5000);
 
 };
 

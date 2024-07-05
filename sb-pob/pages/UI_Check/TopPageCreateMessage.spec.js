@@ -10,9 +10,14 @@ const warning_color = '#E02D2D';
 const activeButton_color = '#FFFFFF';
 const inactiveButton_color = '#CCCCCC';
 
-test("Create Message [ Check Text UI]", async ({ page }) => {
+test.beforeEach(async({page})=>{
   await login_success(page);
   await page.getByRole("link", { name: "メッセージ作成" }).click();
+})
+
+test.describe("Create Message [ Check fontsize, fontweight, color ]", () => {
+  //this case still has some issue
+  test("Create Message [Check all texts]", async({page}) =>{
   await validateTextUI(page.getByLabel("breadcrumb").getByText("メッセージ作成"),f14,bold400,primary_color);
   await validateTextUI(page.locator("div").filter({ hasText: /^メッセージ作成$/ }),f34,bold700,primary_color);
   await validateTextUI(page.getByText("配信設定"), f22, bold600,primary_color);
@@ -48,142 +53,22 @@ test("Create Message [ Check Text UI]", async ({ page }) => {
   await validateTextUI(page.getByRole("button", { name: "配信", exact: true }),f16,bold400,activeButton_color)
   await validateTextUI(page.getByRole("button", { name: "下書き保存", exact: true }),f16,bold400,inactiveButton_color)
   await validateTextUI(page.getByRole("button", { name: "テスト配信", exact: true }),f16,bold400,inactiveButton_color)
+  })
 
-    // // Click the button to open the pop-up
-    // await page.locator("div").filter({ hasText: /^1選択$/ }).getByRole("button").click();
-    // await validateTextUI(page.getByRole('heading', { name: 'アクションリンクを選択' }),f28,bold1);
-    // await validateTextUI(
-    //   page.getByText("防災情報", { exact: true }),
-    //   f16,
-    //   bold1
-    // );
-    // await validateTextUI(page.getByText("港区防災情報"), f14, normal);
-    // await validateTextUI(
-    //   page
-    //     .locator("div")
-    //     .filter({
-    //       hasText:
-    //         /^港区防災情報本管理画面の「LINEコンテンツ設定」メニューから編集できます。$/,
-    //     })
-    //     .first(),
-    //   f16,
-    //   normal
-    // );
-    // await validateTextUI(page.getByText("警報・注意報"), f14, normal);
-    // await validateTextUI(
-    //   page
-    //     .locator("div")
-    //     .filter({
-    //       hasText:
-    //         /^警報・注意報本管理画面の「LINEコンテンツ設定」メニューから編集できます。$/,
-    //     })
-    //     .first(),
-    //   f16,
-    //   normal
-    // );
-    // await validateTextUI(page.getByText("気象・地震情報"), f16, bold1);
-    // await validateTextUI(page.getByText("天気予報を確認する"), f14, normal);
-    // await validateTextUI(
-    //   page.getByText("Yahoo JAPANの天気予報が表示されたページ"),
-    //   f16,
-    //   normal
-    // );
-    // await validateTextUI(
-    //     page.getByText('雨雲レーダーを確認する'),
-    //   f14,
-    //   normal
-    // );
-    // await validateTextUI(
-    //   page.getByText("Yahoo JAPANの雨雲レーダーが表示されたページ"),
-    //   f16,
-    //   normal
-    // );
-    // await validateTextUI(page.getByText("台風情報を確認する"), f14, normal);
-    // await validateTextUI(
-    //   page.getByText("気象庁の台風情報が表示されたページ"),
-    //   f16,
-    //   normal
-    // );
+  test("Create Message [Check error text messages]",async({page}) => {
+  await page.getByPlaceholder('例）避難指示メッセージ').click();
+  await page.getByPlaceholder('例：〇〇ため、警戒レベル3高齢者等避難を発令しました。').click();
+  await page.getByPlaceholder('例）避難指示メッセージ').click();
+  //require text
+  await validateTextUI(page.getByText('タイトルを入力してください。'),f12,bold400,warning_color);
+  await validateTextUI(page.getByText('メッセージを入力してください。'),f12,bold400,warning_color);
+  // Boundary Testing
+  await page.getByPlaceholder('例）避難指示メッセージ').fill("Google LLC is an American multinational corporation and technology");
+  await validateTextUI(page.getByText('タイトルは30文字以内で入力してください。'),f12,bold400,warning_color);
+  await page.getByPlaceholder('例：〇〇ため、警戒レベル3高齢者等避難を発令しました。').fill('Google LLC (/ˈɡuːɡəl/ ⓘ, GOO-ghəl) is an American multinational corporation and technology company focusing on online advertising, search engine technology, cloud computing, computer software, quantum computing, e-commerce, consumer electronics, and artificial intelligence (AI).[9] It has been referred to as "the most powerful company in the world"[10] and is one of the worlds most valuable brands due to its market dominance, data collection, and technological advantages in the field of AI.[11][12][13] Googles parent company, Alphabet Inc. is one of the five Big Tech companies, alongside Amazon, Apple, Meta, and Microsoft.');
+  await validateTextUI(page.getByText('メッセージは500文字以内で入力してください。'),f12,bold400,warning_color);
+  })
+  
 
-    // await validateTextUI(page.getByText("地震情報を確認する"), f14, normal);
-    // await validateTextUI(
-    //   page.getByText("気象庁の地震情報が表示されたページ"),
-    //   f16,
-    //   normal
-    // );
-    // await validateTextUI(page.getByText("津波情報を確認する"), f14, normal);
-    // await validateTextUI(
-    //   page.getByText("気象庁の津波情報が表示されたページ"),
-    //   f16,
-    //   normal
-    // );
-
-    // await validateTextUI(
-    //   page.getByText("防災マップ", { exact: true }),
-    //   f16,
-    //   bold1
-    // );
-    // await validateTextUI(page.getByText("防災マップを確認する"), f14, normal);
-    // await validateTextUI(
-    //   page.getByText(
-    //     "ハザードマップ、避難施設、混雑情報、河川水位が全て表示された防災マップ"
-    //   ),
-    //   f16,
-    //   normal
-    // );
-    // await validateTextUI(page.getByText("避難先を確認する"), f14, normal);
-    // await validateTextUI(
-    //   page.getByText(
-    //     "避難施設（避難所・避難場所・一時滞在施設）が表示された防災マップ"
-    //   ),
-    //   f16,
-    //   normal
-    // );
-    // await validateTextUI(
-    //   page.getByText("ハザードマップを確認する"),
-    //   f14,
-    //   normal
-    // );
-    // await validateTextUI(
-    //   page.getByText("ハザードマップが表示された防災マップ"),
-    //   f16,
-    //   normal
-    // );
-    // await validateTextUI(page.getByText("混雑を確認する"), f14, normal);
-    // await validateTextUI(
-    //   page.getByText("混雑度が表示された防災マップ"),
-    //   f16,
-    //   normal
-    // );
-
-    // await validateTextUI(
-    //   page.getByText("電車運行情報", { exact: true }),
-    //   f16,
-    //   bold1
-    // );
-    // await validateTextUI(
-    //   page.getByText("周辺の電車運行情報を確認する"),
-    //   f14,
-    //   normal
-    // );
-    // await validateTextUI(
-    //   page.getByText("電車の運行情報が確認できるページ"),
-    //   f16,
-    //   normal
-    // );
-
-    // await validateTextUI(page.getByText("Twitter投稿情報"), f16, bold1);
-    // await validateTextUI(
-    //   page.getByText("周辺のSNS災害投稿を確認する"),
-    //   f14,
-    //   normal
-    // );
-    // await validateTextUI(
-    //   page.getByText(
-    //     "SNSで投稿された災害に関連する投稿が一覧で確認できるページ"
-    //   ),
-    //   f16,
-    //   normal
-    // );
 });
 

@@ -1,6 +1,6 @@
 
 const { login_success, logout_success } = require("../../component/login_logout_actions");
-import { func } from "../../utils/style_validate";
+const { selectImage} = require("../../component/imageSelection");
 const { test, expect } = require("@playwright/test");
 const toppage_url ="https://sb-disaster-admin-pob.tagcast.group/message-deliveries";
 
@@ -80,7 +80,6 @@ test("Create Message [ If user leave page, show alert pop-up ]", async ({page}) 
   await page.waitForTimeout(2000);
   await expect(page).toHaveURL(toppage_url);
   await page.waitForTimeout(2000);
-
 
   //check Pop-up message UI - back at bottom page -> expect to to top page
   await page.getByRole('link', { name: 'メッセージ作成' }).click();
@@ -207,3 +206,43 @@ test("Create Message [Action Link: Pop-up]", async ({ page }) => {
 
 
 });
+
+test.describe.only("Create a new message [Selected Image: Pop-up]",() => {
+  test('test',async({page}) => {
+    await page.getByRole('button', { name: 'テンプレートから選択' }).click();
+   
+await page.locator('div:nth-child(3) > div > div:nth-child(2) > div:nth-child(1) > .cursor-pointer > .sb-image').click();
+await page.locator('div:nth-child(3) > div > div:nth-child(2) > div:nth-child(2) > .cursor-pointer > .sb-image').click();
+await page.locator('div:nth-child(3) > div > div:nth-child(2) > div:nth-child(3) > .cursor-pointer > .sb-image').click();
+
+await page.locator('div:nth-child(4) > div > div:nth-child(2) > div:nth-child(1) > .cursor-pointer > .sb-image').click();
+await page.locator('div:nth-child(4) > div > div:nth-child(2) > div:nth-child(2) > .cursor-pointer > .sb-image').click();
+await page.locator('div:nth-child(4) > div > div:nth-child(2) > div:nth-child(3) > .cursor-pointer > .sb-image').click();
+
+await page.locator('div:nth-child(9) > div > div:nth-child(2) > div:nth-child(1) > .cursor-pointer > .sb-image').click();
+await page.locator('div:nth-child(9) > div > div:nth-child(2) > div:nth-child(2) > .cursor-pointer > .sb-image').click();
+await page.locator('div:nth-child(9) > div > div:nth-child(2) > div:nth-child(3) > .cursor-pointer > .sb-image').click();
+  })
+  
+  //Earthquake
+  //  selectImage("earthquake 3","1","sb-image-earthquake-intensity-3");
+  //  selectImage("earthquake 4","2","sb-image-earthquake-intensity-4");
+  //  selectImage("earthquake 5 lower","3","sb-image-earthquake-intensity-5-lower");
+  //  selectImage("earthquake 5 plus","4","sb-image-earthquake-intensity-5-plus");
+  //  selectImage("earthquake 6 lower","5","sb-image-earthquake-intensity-6-lower");
+  //  selectImage("earthquake 6 plus","6","sb-image-earthquake-intensity-6-plus");
+  //  selectImage("earthquake 7","7","sb-image-earthquake-intensity-7");
+   //Tsunami
+   selectImage("Tsunami warning","8","sb-image-tsunami-warning");
+   selectImage("Tsunami alert","9","sb-image-tsunami-alert");
+   selectImage("Tsunami large","10","sb-image-tsunaimi-large");
+  //Evacuation
+  selectImage("Evacuation order","11","sb-image-evacuation-order");
+  selectImage("Evacuation elderly","12","sb-image-evacuatoin-elderly");
+  });
+
+
+
+
+
+
