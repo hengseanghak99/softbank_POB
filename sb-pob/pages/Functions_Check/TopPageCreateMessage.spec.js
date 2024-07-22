@@ -207,7 +207,7 @@ test("Create Message [Action Link: Pop-up]", async ({ page }) => {
 
 });
 
-test.describe.only("Create a new message [Selected Image: Pop-up]",() => {
+test.describe("Create a new message [Selected Image: Pop-up]",() => {
   test('test',async({page}) => {
     await page.getByRole('button', { name: 'テンプレートから選択' }).click();
    
