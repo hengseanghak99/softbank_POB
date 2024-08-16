@@ -6,4 +6,4 @@ node_modules/
 /sb-pob/.env
 /tests/
 /tests-example/
-/sb-pob/.env
+/sb-pob/utils/.env

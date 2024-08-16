@@ -9,6 +9,11 @@ const user = {
   password: process.env.USER_PASSWORD,
 };
 
+const facebook = {
+  facebook_email: process.env.FACEBOOK_USER_EMAIL,
+  facebook_password: process.env.FACEBOOK_USER_PASSWORD,
+}
+
 const reset_password = {
   currentPassword: process.env.RESET_PASSWORD_CURRENT,
   newPassword: process.env.RESET_PASSWORD_NEW,
@@ -29,6 +34,7 @@ const credentials = {
   incorrectUser,
   login_url,
   toppage_url,
+  facebook,
 };
 
 module.exports = { 
@@ -37,5 +43,6 @@ module.exports = {
   reset_password,
   incorrectUser,
   toppage_url,
-  login_url
-};
+  login_url,
+  facebook,
+}
