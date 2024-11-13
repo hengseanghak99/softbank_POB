@@ -16,8 +16,6 @@ test.describe('Mobile Testing on iPhone 12', () => {
         await page.getByPlaceholder('Password').fill('VFMuGarUIZbHgoS');
         await page.getByRole('button', { name: 'Login' }).click();
         await expect(page.getByText('Siem Reap Smart City Data Platform', { exact: true })).toBeVisible();
-
-
     });
 });
 
