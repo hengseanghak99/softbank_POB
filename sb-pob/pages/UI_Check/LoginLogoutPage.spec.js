@@ -7,6 +7,7 @@ const primary_color = '#000000';
 const secondary_color = '##666666';
 const warning_color = '#E02D2D'
 
+
 test.beforeEach(async ({ page }) => {
   await page.goto(login_url);
 });
