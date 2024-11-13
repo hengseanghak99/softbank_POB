@@ -1,7 +1,7 @@
-import { login_logout_action } from "../../component/login_logout_actions";
+import { login} from "../../component/login_logout_actions";
 import { validateTextUI, f14, f16, f22, f12, f34, bold700, bold600, bold400, f28 , hexToRgb} from "../../utils/style_validate";
 const { test, expect } = require("@playwright/test");
-const { login_success } = login_logout_action;
+const { login_success } = login;
 
 const primary_color = '#000000';
 const info_color = '#0066FF';

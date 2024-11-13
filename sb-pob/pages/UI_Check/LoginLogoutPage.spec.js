@@ -82,8 +82,8 @@ test("validate login [ Check Text UI ]", async ({ page }) => {
 
 test("validate change password pop-up [Check Text UI]", async ({ page }) => {
   await login_success(page);
-  await page.getByText("防災 太郎").click();
-  await page.getByRole("banner").getByText("パスワード変更").click();
+  await page.getByText('h-seanghak').click();
+  await page.getByRole('banner').getByText('パスワード変更').click();
 
   await validateTextUI(page.getByRole("heading", { name: "パスワード変更" }),f28,bold700,primary_color)
   await validateTextUI(page.getByText("現在のパスワード", { exact: true }),f16,bold700,primary_color)
